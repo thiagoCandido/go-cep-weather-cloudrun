@@ -1,0 +1,34 @@
+CEP -> Clima (Go) — Rodar em DEV
+
+1) Pré-requisitos:
+- Go 1.22+ (para rodar local)
+- Docker + Docker Compose (para rodar via containers)
+- Uma chave da WeatherAPI (https://www.weatherapi.com/)
+
+2) Configuração:
+- Copie o arquivo de exemplo e coloque sua chave:
+  cp .env.example .env
+  (edite .env e preencha WEATHER_API_KEY)
+
+3) Rodar local:
+  go run ./cmd/server
+
+- A API sobe em: http://localhost:8080
+- Endpoint:
+  GET /weather?cep=01001000
+
+4) Rodar com Docker Compose:
+  docker compose up --build
+
+5) Testar:
+  curl "http://localhost:8080/weather?cep=01001000"
+
+- Sucesso: HTTP 200 JSON { "temp_C": ..., "temp_F": ..., "temp_K": ... }
+- CEP inválido: HTTP 422 "invalid zipcode"
+- CEP não encontrado: HTTP 404 "can not find zipcode"
+
+6) Testes:
+  go test ./...
+
+Cloud Run:
+- Cloud Run exige que o app escute na porta $PORT. Este projeto já suporta isso.
